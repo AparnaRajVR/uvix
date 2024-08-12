@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
+import 'package:yuvix/core/constants/color.dart';
 // import 'package:fluttericon/octicons_icons.dart';
 import 'package:yuvix/features/homepage/view/screen/search_filter.dart';
 
@@ -12,7 +13,7 @@ import '../../../inventory/view/screens/Inventory.dart';
 
 
 
-const Color BackgroundColor = Color(0xff03448c);
+  Color BackgroundColor = ConstC.getColor(AppColor.background1);
 
 class BottomNav extends StatefulWidget {
   const BottomNav({Key? key}) : super(key: key);

@@ -31,7 +31,10 @@ class _SalesMoreState extends State<SalesMore> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: ConstC.getColor(AppColor.appBar),
         title: Text("Sales More"),
+        titleTextStyle: TextStyle(color: ConstC.getColor(AppColor.textC1),fontSize: 23),
+        centerTitle: true,
       ),
       body: Column(
         children: [
@@ -89,12 +92,13 @@ class _SalesMoreState extends State<SalesMore> {
                     child: Container(
                       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 8),
                       decoration: BoxDecoration(
+                        color: ConstC.getColor(AppColor.buttonBackground),
                         border: Border.all(color:  ConstC.getColor(AppColor.text)),
                         borderRadius: BorderRadius.circular(5),
                       ),
                       child: Text(
                         formattedStartDate,
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 16,color:  ConstC.getColor(AppColor.textC1)),
                       ),
                     ),
                   ),
@@ -118,12 +122,13 @@ class _SalesMoreState extends State<SalesMore> {
                     child: Container(
                       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 8),
                       decoration: BoxDecoration(
+                        color: ConstC.getColor(AppColor.buttonBackground),
                         border: Border.all(color:  ConstC.getColor(AppColor.text)),
                         borderRadius: BorderRadius.circular(5),
                       ),
                       child: Text(
                         formattedEndDate,
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 16,color:  ConstC.getColor(AppColor.textC1),),
                       ),
                     ),
                   ),

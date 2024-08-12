@@ -39,7 +39,7 @@ class _SalesAddPageState extends State<SalesAddPage> {
     final quantity = int.tryParse(_quantityController.text) ?? 0;
     final pricePerUnit = double.tryParse(_priceController.text) ?? 0.0;
     final totalPrice = quantity * pricePerUnit;
-
+    
     if (productName == null || quantity <= 0 || pricePerUnit <= 0) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Please fill all the fields correctly')),
@@ -52,7 +52,8 @@ class _SalesAddPageState extends State<SalesAddPage> {
         productName: productName,
         quantity: quantity,
         pricePerUnit: pricePerUnit,
-        totalPrice: totalPrice, categoryName: '',
+        totalPrice: totalPrice,
+         categoryName: '',
       ));
     });
 

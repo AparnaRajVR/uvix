@@ -6,6 +6,7 @@ import 'package:yuvix/features/inventory/controller/category_Service.dart';
 import 'package:yuvix/features/inventory/controller/product_services.dart';
 import 'package:yuvix/features/inventory/models/category_model.dart';
 import 'package:yuvix/features/inventory/models/product_model.dart';
+import 'package:yuvix/features/salespage/controller/sales_service.dart';
 
 class ProductSelectionBottomSheet extends StatefulWidget {
   final Function(ProductModel, int) onProductSelected;
@@ -19,7 +20,7 @@ class ProductSelectionBottomSheet extends StatefulWidget {
 class _ProductSelectionBottomSheetState extends State<ProductSelectionBottomSheet> {
   TextEditingController _searchController = TextEditingController();
   TextEditingController _quantityController = TextEditingController();
-  String? _selectedCategory;
+  String? selectedCategory;
   late Future<List<CategoryModel>> _categoriesFuture;
 
   @override
@@ -44,16 +45,17 @@ class _ProductSelectionBottomSheetState extends State<ProductSelectionBottomShee
                 return Text('Error: ${snapshot.error}');
               } else {
                 return DropdownButtonFormField<String>(
-                  value: _selectedCategory,
+                  value: Provider.of<SalesProvider>(context).selectedCategory,
                   onChanged: (newValue) async {
                     setState(() {
-                      _selectedCategory = newValue;
+                      Provider.of<SalesProvider>(context).selectedCategory = newValue;
+                      
                       _searchController.clear(); 
                       _quantityController.clear(); 
                     });
-                    if (_selectedCategory != null) {
+                    if (Provider.of<SalesProvider>(context).selectedCategory != null) {
                       await Provider.of<ProductService>(context, listen: false)
-                          .filterProductsByCategory(_selectedCategory!, _searchController.text);
+                          .filterProductsByCategory(Provider.of<SalesProvider>(context).selectedCategory!, _searchController.text);
                     }
                   },
                   items: snapshot.data!.map((category) {
@@ -75,9 +77,9 @@ class _ProductSelectionBottomSheetState extends State<ProductSelectionBottomShee
               suffixIcon: IconButton(
                 icon: Icon(Icons.search),
                 onPressed: () async {
-                  if (_selectedCategory != null) {
+                  if (Provider.of<SalesProvider>(context).selectedCategory != null) {
                     await Provider.of<ProductService>(context, listen: false)
-                        .filterProductsByCategory(_selectedCategory!, _searchController.text);
+                        .filterProductsByCategory(Provider.of<SalesProvider>(context).selectedCategory!, _searchController.text);
                   }
                 },
               ),

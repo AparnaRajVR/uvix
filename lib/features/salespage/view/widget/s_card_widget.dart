@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:yuvix/core/constants/color.dart';
 import 'package:yuvix/features/salespage/model/sales_item_model.dart';
@@ -31,12 +33,15 @@ class SalesCardDetailsWidgets {
   static List<Widget> buildSalesList({
     required List<SalesItemModel> salesList,
   }) {
+   
     return salesList.map<Widget>((item) {
+      log("$item");
+      print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>${item}");
       return Container(
         margin: const EdgeInsets.only(bottom: 8.0),
         padding: const EdgeInsets.all(12.0),
         decoration: BoxDecoration(
-          color: ConstC.getColor(AppColor.text),
+          color: const Color.fromARGB(255, 201, 187, 187),
           borderRadius: BorderRadius.circular(8),
           border: Border.all(color: ConstC.getColor(AppColor.text)),
         ),
