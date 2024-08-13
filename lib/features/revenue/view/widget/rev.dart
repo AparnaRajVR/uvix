@@ -31,7 +31,7 @@ class RevenueWidgets {
   }
 
   static Widget buildCategoryCard(
-      String name, String imagePath, int quantity, int amount) {
+      String name, String imagePath, int quantity, double amount) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       elevation: 4,

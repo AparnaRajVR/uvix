@@ -5,6 +5,8 @@ import 'package:yuvix/features/salespage/model/sales_model.dart';
 
 import '../model/sales_item_model.dart';
 
+  String? selectedcat;
+
 class SalesProvider with ChangeNotifier {
   late Box<SalesModel> _salesBox;
   String? selectedCategory;
@@ -62,6 +64,7 @@ class SalesProvider with ChangeNotifier {
     // Print details of each SalesItemModel in the sales list
     for (var item in sale.salesList) {
       print('????????????????????????????  ${item.productName} - ₹${item.pricePerUnit.toStringAsFixed(2)} x ${item.quantity}');
+      print("................................${item.categoryName}");
     }
   }
 
@@ -80,6 +83,36 @@ class SalesProvider with ChangeNotifier {
     }).toList();
   }
 
+  // fn
+Map<String, Map<String, dynamic>> getCategoryWiseSummary() {
+  Map<String, Map<String, dynamic>> categorySummary = {};
+
+  for (var sale in _salesBox.values) {
+    for (var item in sale.salesList) {
+      if (categorySummary.containsKey(item.categoryName)) {
+        categorySummary[item.categoryName]!['totalQuantity'] += item.quantity;
+        categorySummary[item.categoryName]!['totalAmount'] +=
+            item.pricePerUnit * item.quantity;
+      } else {
+        categorySummary[item.categoryName] = {
+          'totalQuantity': item.quantity,
+          'totalAmount': item.pricePerUnit * item.quantity,
+        };
+      }
+    }
+  }
+
+  categorySummary.forEach((category, summary) {
+    print(
+        'Category: $category, Total Quantity: ${summary['totalQuantity']}, Total Amount: ₹${summary['totalAmount'].toStringAsFixed(2)}');
+  });
+
+  return categorySummary;
+}
+
+
+
+// .....................
   int getTotalQuantity(List<SalesModel> sales) {
     int totalQuantity = 0;
     for (var sale in sales) {
@@ -98,3 +131,5 @@ class SalesProvider with ChangeNotifier {
     return totalAmount;
   }
 }
+
+

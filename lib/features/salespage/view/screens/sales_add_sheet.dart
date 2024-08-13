@@ -53,7 +53,7 @@ class _SalesAddPageState extends State<SalesAddPage> {
         quantity: quantity,
         pricePerUnit: pricePerUnit,
         totalPrice: totalPrice,
-         categoryName: '',
+         categoryName: selectedcat.toString(),
       ));
     });
 

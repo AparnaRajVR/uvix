@@ -4,8 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:yuvix/core/constants/color.dart';
 import 'package:yuvix/features/revenue/view/widget/rev.dart';
 import 'package:yuvix/features/salespage/controller/sales_service.dart';
-import 'package:yuvix/features/salespage/model/sales_model.dart';
-
 
 class RevenuePage extends StatefulWidget {
   @override
@@ -32,18 +30,19 @@ class _RevenuePageState extends State<RevenuePage> {
     setState(() {
       _totalProducts = salesProvider.getTotalQuantity(sales);
       _totalRevenue = salesProvider.getTotalAmount(sales);
-      _categories = _generateCategoryData(sales);
+      _categories = _generateCategoryData(salesProvider.getCategoryWiseSummary());
     });
   }
 
-  List<Map<String, dynamic>> _generateCategoryData(List<SalesModel> sales) {
-    // Assuming this is a sample data generator
-    return [
-      {'name': 'Mobiles', 'imagePath': 'Assets/images/mobile.png', 'quantity': 50, 'amount': 20000},
-      {'name': 'Tablets', 'imagePath': 'Assets/images/tablet.png', 'quantity': 30, 'amount': 15000},
-      {'name': 'Smart Watches', 'imagePath': 'Assets/images/smartwatch.png', 'quantity': 20, 'amount': 10000},
-      {'name': 'Accessories', 'imagePath': 'Assets/images/accessories.png', 'quantity': 50, 'amount': 5000},
-    ];
+  List<Map<String, dynamic>> _generateCategoryData(Map<String, Map<String, dynamic>> categorySummary) {
+    return categorySummary.entries.map((entry) {
+      return {
+        'name': entry.key,
+        'imagePath': 'Assets/images/${entry.key.toLowerCase().replaceAll(' ', '')}.png', 
+        'quantity': entry.value['totalQuantity'],
+        'amount': entry.value['totalAmount'],
+      };
+    }).toList();
   }
 
   @override

@@ -69,7 +69,7 @@ class ProductService with ChangeNotifier {
 
   void searchProducts(String query) {
     if (query.isEmpty) {
-      _filteredProducts = []; 
+      _filteredProducts =_products; 
     } else {
       _filteredProducts = _products 
           .where((product) => product.productName.toLowerCase().contains(query.toLowerCase()))

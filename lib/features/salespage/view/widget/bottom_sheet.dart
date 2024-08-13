@@ -1,3 +1,109 @@
+// import 'package:flutter/material.dart';
+// import 'package:provider/provider.dart';
+// import 'package:yuvix/features/inventory/controller/category_Service.dart';
+// import 'package:yuvix/features/inventory/controller/product_services.dart';
+// import 'package:yuvix/features/inventory/models/category_model.dart';
+// import 'package:yuvix/features/inventory/models/product_model.dart';
+
+// class ProductSelectionBottomSheet extends StatefulWidget {
+//   final Function(ProductModel) onProductSelected;
+
+//   ProductSelectionBottomSheet({required this.onProductSelected});
+
+//   @override
+//   _ProductSelectionBottomSheetState createState() => _ProductSelectionBottomSheetState();
+// }
+
+// class _ProductSelectionBottomSheetState extends State<ProductSelectionBottomSheet> {
+//   TextEditingController _searchController = TextEditingController();
+//   String? _selectedCategory;
+//   late Future<List<CategoryModel>> _categoriesFuture;
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     _categoriesFuture = Provider.of<CategoryService>(context, listen: false).getCategories();
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: const EdgeInsets.all(16.0),
+//       child: Column(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           FutureBuilder<List<CategoryModel>>(
+//             future: _categoriesFuture,
+//             builder: (context, snapshot) {
+//               if (snapshot.connectionState == ConnectionState.waiting) {
+//                 return Center(child: CircularProgressIndicator());
+//               } else if (snapshot.hasError) {
+//                 return Text('Error: ${snapshot.error}');
+//               } else {
+//                 return DropdownButtonFormField<String>(
+//                   value: _selectedCategory,
+//                   onChanged: (newValue) async {
+//                     setState(() {
+//                       _selectedCategory = newValue!;
+//                     });
+//                     if (_selectedCategory != null) {
+//                       await Provider.of<ProductService>(context, listen: false)
+//                           .filterProductsByCategory(_selectedCategory!, _searchController.text);
+//                     }
+//                   },
+//                   items: snapshot.data!.map((category) {
+//                     return DropdownMenuItem<String>(
+//                       value: category.categoryName,
+//                       child: Text(category.categoryName!),
+//                     );
+//                   }).toList(),
+//                   decoration: InputDecoration(labelText: 'Select Category'),
+//                 );
+//               }
+//             },
+//           ),
+//           SizedBox(height: 8.0),
+//           TextField(
+//             controller: _searchController,
+//             decoration: InputDecoration(
+//               labelText: 'Search Products',
+//               suffixIcon: IconButton(
+//                 icon: Icon(Icons.search),
+//                 onPressed: () async {
+//                   if (_selectedCategory != null) {
+//                     await Provider.of<ProductService>(context, listen: false)
+//                         .filterProductsByCategory(_selectedCategory!, _searchController.text);
+//                   }
+//                 },
+//               ),
+//             ),
+//           ),
+//           SizedBox(height: 8.0),
+//           Expanded(
+//             child: Consumer<ProductService>(
+//               builder: (context, productService, child) {
+//                 return ListView.builder(
+//                   itemCount: productService.filteredProducts.length,
+//                   itemBuilder: (context, index) {
+//                     final product = productService.filteredProducts[index];
+//                     return ListTile(
+//                       title: Text(product.productName),
+//                       subtitle: Text('Price: ${product.price}'),
+//                       onTap: () {
+//                         widget.onProductSelected(product);
+//                         Navigator.pop(context);
+//                       },
+//                     );
+//                   },
+//                 );
+//               },
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
 
 
 import 'package:flutter/material.dart';
@@ -20,7 +126,7 @@ class ProductSelectionBottomSheet extends StatefulWidget {
 class _ProductSelectionBottomSheetState extends State<ProductSelectionBottomSheet> {
   TextEditingController _searchController = TextEditingController();
   TextEditingController _quantityController = TextEditingController();
-  String? selectedCategory;
+  String? _selectedCategory;
   late Future<List<CategoryModel>> _categoriesFuture;
 
   @override
@@ -45,17 +151,17 @@ class _ProductSelectionBottomSheetState extends State<ProductSelectionBottomShee
                 return Text('Error: ${snapshot.error}');
               } else {
                 return DropdownButtonFormField<String>(
-                  value: Provider.of<SalesProvider>(context).selectedCategory,
+                  value: _selectedCategory,
                   onChanged: (newValue) async {
                     setState(() {
-                      Provider.of<SalesProvider>(context).selectedCategory = newValue;
-                      
-                      _searchController.clear(); 
-                      _quantityController.clear(); 
+                      selectedcat=newValue;
+                      _selectedCategory = newValue;
+                      _searchController.clear(); // Clear search text when category changes
+                      _quantityController.clear(); // Clear quantity field when category changes
                     });
-                    if (Provider.of<SalesProvider>(context).selectedCategory != null) {
+                    if (_selectedCategory != null) {
                       await Provider.of<ProductService>(context, listen: false)
-                          .filterProductsByCategory(Provider.of<SalesProvider>(context).selectedCategory!, _searchController.text);
+                          .filterProductsByCategory(_selectedCategory!, _searchController.text);
                     }
                   },
                   items: snapshot.data!.map((category) {
@@ -77,9 +183,9 @@ class _ProductSelectionBottomSheetState extends State<ProductSelectionBottomShee
               suffixIcon: IconButton(
                 icon: Icon(Icons.search),
                 onPressed: () async {
-                  if (Provider.of<SalesProvider>(context).selectedCategory != null) {
+                  if (_selectedCategory != null) {
                     await Provider.of<ProductService>(context, listen: false)
-                        .filterProductsByCategory(Provider.of<SalesProvider>(context).selectedCategory!, _searchController.text);
+                        .filterProductsByCategory(_selectedCategory!, _searchController.text);
                   }
                 },
               ),
