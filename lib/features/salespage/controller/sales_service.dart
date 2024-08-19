@@ -1,12 +1,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:intl/intl.dart';
 import 'package:yuvix/features/salespage/model/sales_model.dart';
 
 import '../model/sales_item_model.dart';
-
   String? selectedcat;
-
 class SalesProvider with ChangeNotifier {
   late Box<SalesModel> _salesBox;
   String? selectedCategory;
@@ -20,54 +19,52 @@ class SalesProvider with ChangeNotifier {
     notifyListeners();
   }
 
- void saveSales({
-  required String date,
-  required String customerName,
-  required String mobileNumber,
-  required double totalAmount,
-  required List<SalesItemModel> salesList,
-}) async {
- 
-  final salesData = SalesModel(
-    date: date,
-    customerName: customerName,
-    mobileNumber: mobileNumber,
-    totalAmount: totalAmount,
-    salesList: salesList.toList(),
-  );
+  void saveSales({
+    required String date,
+    required String customerName,
+    required String mobileNumber,
+    required double totalAmount,
+    required List<SalesItemModel> salesList,
+  }) async {
+    final salesData = SalesModel(
+      date: date,
+      customerName: customerName,
+      mobileNumber: mobileNumber,
+      totalAmount: totalAmount,
+      salesList: salesList.toList(),
+    );
 
-  // Add the data to the Hive box
-  await _salesBox.add(salesData);
+    // Add the data to the Hive box
+    await _salesBox.add(salesData);
 
-  // Print all data from the Hive box
-  final allSales = _salesBox.values.toList();
-  for (var sale in allSales) {
-    print(sale.toString()); // Print the SalesModel instance
+    // Print all data from the Hive box
+    final allSales = _salesBox.values.toList();
+    for (var sale in allSales) {
+      print(sale.toString()); // Print the SalesModel instance
 
-    // Print details of each SalesItemModel in the sales list
-    for (var item in sale.salesList) {
-      print('  ${item.productName} - ₹${item.pricePerUnit.toStringAsFixed(2)} x ${item.quantity}');
+      // Print details of each SalesItemModel in the sales list
+      for (var item in sale.salesList) {
+        print(
+            '  ${item.productName} - ₹${item.pricePerUnit.toStringAsFixed(2)} x ${item.quantity}');
+      }
     }
+
+    // Notify listeners
+    notifyListeners();
   }
-
-  // Notify listeners
-  notifyListeners();
-}
-
 
   List<SalesModel> getAllSales() {
+    final allSales = _salesBox.values.toList();
+    for (var sale in allSales) {
+      print(sale.toString()); // Print the SalesModel instance
 
-      final allSales = _salesBox.values.toList();
-  for (var sale in allSales) {
-    print(sale.toString()); // Print the SalesModel instance
-
-    // Print details of each SalesItemModel in the sales list
-    for (var item in sale.salesList) {
-      print('????????????????????????????  ${item.productName} - ₹${item.pricePerUnit.toStringAsFixed(2)} x ${item.quantity}');
-      print("................................${item.categoryName}");
+      // Print details of each SalesItemModel in the sales list
+      for (var item in sale.salesList) {
+        print(
+            '????????????????????????????  ${item.productName} - ₹${item.pricePerUnit.toStringAsFixed(2)} x ${item.quantity}');
+        print("................................${item.categoryName}");
+      }
     }
-  }
-
 
     return _salesBox.values.toList();
   }
@@ -76,43 +73,54 @@ class SalesProvider with ChangeNotifier {
     if (startDate == null || endDate == null) {
       return [];
     }
+
+    // Use the correct format for parsing the date string
+    final dateFormat = DateFormat('dd.MMM.yyyy'); // Adjusted for '18.Aug.2024'
+
     return _salesBox.values.where((sale) {
-      DateTime saleDate = DateTime.parse(sale.date);
+      DateTime? saleDate;
+
+      try {
+        saleDate = dateFormat.parse(sale.date);
+      } catch (e) {
+        print('Date format exception: $e');
+        return false; // Skip this sale if the date cannot be parsed
+      }
+
       return saleDate.isAfter(startDate.subtract(Duration(days: 1))) &&
           saleDate.isBefore(endDate.add(Duration(days: 1)));
     }).toList();
   }
 
   // fn
-Map<String, Map<String, dynamic>> getCategoryWiseSummary() {
-  Map<String, Map<String, dynamic>> categorySummary = {};
+  Map<String, Map<String, dynamic>> getCategoryWiseSummary(
+      List<SalesModel> sales) {
+    Map<String, Map<String, dynamic>> categorySummary = {};
 
-  for (var sale in _salesBox.values) {
-    for (var item in sale.salesList) {
-      if (categorySummary.containsKey(item.categoryName)) {
-        categorySummary[item.categoryName]!['totalQuantity'] += item.quantity;
-        categorySummary[item.categoryName]!['totalAmount'] +=
-            item.pricePerUnit * item.quantity;
-      } else {
-        categorySummary[item.categoryName] = {
-          'totalQuantity': item.quantity,
-          'totalAmount': item.pricePerUnit * item.quantity,
-        };
+    for (var sale in sales) {
+      for (var item in sale.salesList) {
+        if (categorySummary.containsKey(item.categoryName)) {
+          categorySummary[item.categoryName]!['totalQuantity'] +=
+              item.quantity;
+          categorySummary[item.categoryName]!['totalAmount'] +=
+              item.pricePerUnit * item.quantity;
+        } else {
+          categorySummary[item.categoryName] = {
+            'totalQuantity': item.quantity,
+            'totalAmount': item.pricePerUnit * item.quantity,
+          };
+        }
       }
     }
+
+    categorySummary.forEach((category, summary) {
+      print(
+          'Category: $category, Total Quantity: ${summary['totalQuantity']}, Total Amount: ₹${summary['totalAmount'].toStringAsFixed(2)}');
+    });
+
+    return categorySummary;
   }
 
-  categorySummary.forEach((category, summary) {
-    print(
-        'Category: $category, Total Quantity: ${summary['totalQuantity']}, Total Amount: ₹${summary['totalAmount'].toStringAsFixed(2)}');
-  });
-
-  return categorySummary;
-}
-
-
-
-// .....................
   int getTotalQuantity(List<SalesModel> sales) {
     int totalQuantity = 0;
     for (var sale in sales) {
@@ -131,5 +139,4 @@ Map<String, Map<String, dynamic>> getCategoryWiseSummary() {
     return totalAmount;
   }
 }
-
 

@@ -71,7 +71,7 @@ class SalesPageContent extends StatelessWidget {
                           child: SalesCard(
                             buyerName: sale.customerName,
                             mobileNumber: sale.mobileNumber,
-                            totalAmount: sale.totalAmount,
+                            totalAmount: sale.totalAmount, sale: sale,
                           ),
                         );
                       },

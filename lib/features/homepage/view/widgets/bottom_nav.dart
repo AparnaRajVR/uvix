@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:yuvix/core/constants/color.dart';
+import 'package:yuvix/features/out_of_stock/out_of_stock.dart';
 // import 'package:fluttericon/octicons_icons.dart';
-import 'package:yuvix/features/homepage/view/screen/search_filter.dart';
 
 import 'package:yuvix/features/revenue/view/screen/revenue.dart';
 import 'package:yuvix/features/salespage/view/screens/sales.dart';
@@ -57,9 +57,10 @@ class _BottomNavState extends State<BottomNav> {
         physics: NeverScrollableScrollPhysics(),
         children:  [
           InventoryPage(),
-          SearchPage(),
           SalesPage(),
+          OutOfStock(),
           RevenuePage(),
+         
          
         ],
         onPageChanged: (index) {
@@ -78,13 +79,14 @@ class _BottomNavState extends State<BottomNav> {
             icon: Icon(FontAwesome5.box_open, color: Colors.white),
             title: Text('Inventory Manage', style: TextStyle(color: Colors.white)),
           ),
-          FlashyTabBarItem(
-            icon: Icon(FontAwesome5.search, color: Colors.white),
-            title: Text('Search', style: TextStyle(color: Colors.white)),
-          ),
+         
           FlashyTabBarItem(
             icon: Icon(FontAwesome5.hands_helping, color: Colors.white),
             title: Text('Sales', style: TextStyle(color: Colors.white)),
+          ),
+           FlashyTabBarItem(
+            icon: Icon(Icons.inventory, color: Colors.white),
+            title: Text('OutOfStock', style: TextStyle(color: Colors.white)),
           ),
           FlashyTabBarItem(
             icon: Icon(FontAwesome5.chart_bar, color: Colors.white),

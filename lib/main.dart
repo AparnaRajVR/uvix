@@ -3,7 +3,6 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:provider/provider.dart';
 import 'package:yuvix/core/constants/color.dart';
 import 'package:yuvix/features/profile/model/user_model.dart';
-// import 'package:yuvix/features/revenue/view/screen/revenue.dart';
 import 'package:yuvix/features/salespage/controller/sales_service.dart';
 import 'package:yuvix/features/salespage/model/sales_item_model.dart';
 

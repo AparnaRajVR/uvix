@@ -12,7 +12,7 @@ class SalesCard extends StatelessWidget {
     Key? key,
     required this.buyerName,
     required this.mobileNumber,
-    required this.totalAmount,
+    required this.totalAmount, required sale,
   }) : super(key: key);
 
   @override
