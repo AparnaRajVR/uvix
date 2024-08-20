@@ -37,7 +37,7 @@ class ProductModel {
   @HiveField(15)
   final String? features;
   @HiveField(16)
-  final int?quantity;
+  int?quantity;
   @HiveField(17)
   final double price;
 

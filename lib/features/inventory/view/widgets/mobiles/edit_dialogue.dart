@@ -67,6 +67,7 @@ class EditProductDialog extends StatelessWidget {
       actions: [
         ElevatedButton(
           onPressed: () {
+            final productService=Provider.of<ProductService>(context,listen:false);
             final updatedProduct = ProductModel(
               productId: product.productId,
               productName: _nameController.text,
@@ -84,12 +85,30 @@ class EditProductDialog extends StatelessWidget {
               storage: _storageController.text,
             );
 
-            Provider.of<ProductService>(context, listen: false)
-                .updateProduct(updatedProduct);
+        //     Provider.of<ProductService>(context, listen: false)
+        //         .updateProduct(updatedProduct);
+        //          Navigator.pop(context);
 
-            Navigator.pop(context);
-          },
-          child: Text('Update'),
+
+        //   },
+        //   child: Text('Update'),
+        // ),
+        // ElevatedButton(
+        //   onPressed: () {
+        //     Navigator.pop(context);
+        //   },
+
+         productService.updateProduct(updatedProduct);
+
+    // Check if the product was previously out of stock and now has quantity
+    if (product.quantity == 0 && updatedProduct.quantity! > 0) {
+      // Remove from out of stock list
+      productService.removeFromOutOfStock(updatedProduct);
+    }
+
+    Navigator.pop(context);
+  },
+    child: Text('Update'),
         ),
         ElevatedButton(
           onPressed: () {

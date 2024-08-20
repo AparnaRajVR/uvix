@@ -34,31 +34,31 @@ class SalesProvider with ChangeNotifier {
       salesList: salesList.toList(),
     );
 
-    // Add the data to the Hive box
+    
     await _salesBox.add(salesData);
 
-    // Print all data from the Hive box
+   
     final allSales = _salesBox.values.toList();
     for (var sale in allSales) {
-      print(sale.toString()); // Print the SalesModel instance
+      print(sale.toString()); 
 
-      // Print details of each SalesItemModel in the sales list
+      
       for (var item in sale.salesList) {
         print(
             '  ${item.productName} - ₹${item.pricePerUnit.toStringAsFixed(2)} x ${item.quantity}');
       }
     }
 
-    // Notify listeners
+    
     notifyListeners();
   }
 
   List<SalesModel> getAllSales() {
     final allSales = _salesBox.values.toList();
     for (var sale in allSales) {
-      print(sale.toString()); // Print the SalesModel instance
+      print(sale.toString()); 
 
-      // Print details of each SalesItemModel in the sales list
+      
       for (var item in sale.salesList) {
         print(
             '????????????????????????????  ${item.productName} - ₹${item.pricePerUnit.toStringAsFixed(2)} x ${item.quantity}');
@@ -74,8 +74,8 @@ class SalesProvider with ChangeNotifier {
       return [];
     }
 
-    // Use the correct format for parsing the date string
-    final dateFormat = DateFormat('dd.MMM.yyyy'); // Adjusted for '18.Aug.2024'
+    
+    final dateFormat = DateFormat('dd.MMM.yyyy'); 
 
     return _salesBox.values.where((sale) {
       DateTime? saleDate;
@@ -84,7 +84,7 @@ class SalesProvider with ChangeNotifier {
         saleDate = dateFormat.parse(sale.date);
       } catch (e) {
         print('Date format exception: $e');
-        return false; // Skip this sale if the date cannot be parsed
+        return false; 
       }
 
       return saleDate.isAfter(startDate.subtract(Duration(days: 1))) &&

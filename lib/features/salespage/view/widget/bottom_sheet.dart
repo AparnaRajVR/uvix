@@ -114,6 +114,7 @@ import 'package:yuvix/features/inventory/models/category_model.dart';
 import 'package:yuvix/features/inventory/models/product_model.dart';
 import 'package:yuvix/features/salespage/controller/sales_service.dart';
 
+
 class ProductSelectionBottomSheet extends StatefulWidget {
   final Function(ProductModel, int) onProductSelected;
 

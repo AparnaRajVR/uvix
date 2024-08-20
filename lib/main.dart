@@ -33,7 +33,7 @@ late final _profilebox;
 late final salesbox;
  
 void main() async {
-  // WidgetsFlutterBinding().ensureInitialzed();
+  //  WidgetsFlutterBinding().ensureInitialzed();
   await Hive.initFlutter();
   Hive.registerAdapter(UserModelAdapter());
   Hive.registerAdapter(CategoryModelAdapter());

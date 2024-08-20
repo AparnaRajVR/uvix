@@ -56,7 +56,25 @@ class ProductService with ChangeNotifier {
     if (_productBox == null) return;
     final index = _productBox!.values.toList().indexWhere((value) => value.productId == product.productId);
     if (index != -1) {
-      await _productBox!.putAt(index, product);
+      // Get the existing product
+      final existingProduct = _productBox!.getAt(index);
+      
+      // Create an updated product, preserving all fields except quantity
+      final updatedProduct = ProductModel(
+        productId: existingProduct!.productId,
+        productName: existingProduct.productName,
+        category: existingProduct.category,
+        quantity: product.quantity, // Update only the quantity
+        price: existingProduct.price,
+        color: existingProduct.color,
+        brand: existingProduct.brand,
+        battery: existingProduct.battery,
+        networkConnectivity: existingProduct.networkConnectivity,
+        displaySize: existingProduct.displaySize,
+        image: existingProduct.image, // Preserve the image
+      );
+      
+      await _productBox!.putAt(index, updatedProduct);
       _products = _productBox!.values.toList();
       notifyListeners();
     }
@@ -69,7 +87,7 @@ class ProductService with ChangeNotifier {
 
   void searchProducts(String query) {
     if (query.isEmpty) {
-      _filteredProducts =_products; 
+      _filteredProducts = _products; 
     } else {
       _filteredProducts = _products 
           .where((product) => product.productName.toLowerCase().contains(query.toLowerCase()))
@@ -122,5 +140,16 @@ class ProductService with ChangeNotifier {
         .toList();
     notifyListeners();
   }
-}
 
+  List<ProductModel> getOutOfStockProducts() {
+    return _products.where((product) => product.quantity == 0).toList();
+  }
+
+  void removeFromOutOfStock(ProductModel product) {
+  
+  if (product.quantity! > 0) {
+    _products.removeWhere((p) => p.productId == product.productId);
+    notifyListeners();
+  }
+}
+}

@@ -1,6 +1,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:yuvix/features/inventory/controller/product_services.dart';
+import 'package:yuvix/features/inventory/models/product_model.dart';
+import 'package:yuvix/features/out_of_stock/out_of_stock.dart';
 import 'package:yuvix/features/salespage/controller/sales_service.dart';
 import 'package:yuvix/core/constants/color.dart';
 import 'package:yuvix/features/salespage/model/sales_item_model.dart';
@@ -40,32 +43,102 @@ class _SalesAddPageState extends State<SalesAddPage> {
     });
   }
 
-  void _addProduct() {
-    final productName = _selectedProduct;
-    final quantity = int.tryParse(_quantityController.text) ?? 0;
-    final pricePerUnit = double.tryParse(_priceController.text) ?? 0.0;
-    final totalPrice = quantity * pricePerUnit;
+void _addProduct() {
+  final productName = _selectedProduct;
+  final quantity = int.tryParse(_quantityController.text) ?? 0;
+  final pricePerUnit = double.tryParse(_priceController.text) ?? 0.0;
+  final totalPrice = quantity * pricePerUnit;
 
-    if (productName == null || quantity <= 0 || pricePerUnit <= 0) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please fill all the fields correctly')),
-      );
-      return;
-    }
-
-    setState(() {
-      _salesList.add(SalesItemModel(
-        productName: productName,
-        quantity: quantity,
-        pricePerUnit: pricePerUnit,
-        totalPrice: totalPrice,
-        categoryName: selectedcat.toString(),
-      ));
-    });
-
-    _clearProductFields();
+  if (productName == null || quantity <= 0 || pricePerUnit <= 0) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Please fill all the fields correctly')),
+    );
+    return;
   }
 
+  final productService = Provider.of<ProductService>(context, listen: false);
+  
+  // Find the product in the inventory
+  final currentProduct = productService.products.firstWhere(
+    (product) => product.productName == productName,
+    orElse: () => ProductModel(productId: -1, productName: '', category: '', quantity: 0, price: 0, color: '', brand: ''),
+  );
+
+  if (currentProduct.productId == -1) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Product not found in inventory')),
+    );
+
+    return;
+  }
+
+  if (currentProduct.quantity! < quantity) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Not enough quantity in inventory')),
+    );
+    return;
+  }
+
+  // Decrease the quantity from inventory
+  final updatedQuantity = currentProduct.quantity! - quantity;
+  
+  // Check if the updated quantity is zero
+  // if (updatedQuantity == 0) {
+  //   // Navigate to the Out of Stock page
+  //   Navigator.of(context).push(
+  //     MaterialPageRoute(
+  //       builder: (context) => OutOfStock(product: currentProduct),
+  //     ),
+  //   );
+  //   return; // Exit the method early
+  // }
+
+  // final updatedProduct = ProductModel(
+  //   productId: currentProduct.productId,
+  //   productName: currentProduct.productName,
+  //   category: currentProduct.category,
+  //   quantity: updatedQuantity,
+  //   price: currentProduct.price,
+  //   color: currentProduct.color,
+  //   brand: currentProduct.brand,
+  // );
+  // productService.updateProduct(updatedProduct);
+
+  
+
+
+  
+  final updatedProduct = ProductModel(
+    productId: currentProduct.productId,
+    productName: currentProduct.productName,
+    category: currentProduct.category,
+    quantity: updatedQuantity,
+    price: currentProduct.price,
+    color: currentProduct.color,
+    brand: currentProduct.brand,
+    // Add other fields to maintain existing data
+    battery: currentProduct.battery,
+    networkConnectivity: currentProduct.networkConnectivity,
+    displaySize: currentProduct.displaySize,
+    // Include image field if it exists in your model
+    image: currentProduct.image,
+  );
+  productService.updateProduct(updatedProduct);
+
+  
+
+  setState(() {
+    _salesList.add(SalesItemModel(
+      productName: productName,
+      quantity: quantity,
+      pricePerUnit: pricePerUnit,
+      totalPrice: totalPrice,
+      categoryName: currentProduct.category,
+    ));
+  });
+_clearProductFields();
+  // print("Updated quantity: $updatedQuantity");
+}
   void _submitSales() {
   final date = _dateController.text;
   final customerName = _customerNameController.text;
@@ -301,6 +374,7 @@ class _SalesAddPageState extends State<SalesAddPage> {
                       style: TextStyle(color: ConstC.getColor(AppColor.textC1)),
                     ),
                     Text(
+                      
                       'Qty: ${sale.quantity}',
                       style: TextStyle(color: ConstC.getColor(AppColor.textC1)),
                     ),
@@ -381,5 +455,9 @@ class _SalesAddPageState extends State<SalesAddPage> {
       },
     );
   }
+
+  
 }
+
+
 
