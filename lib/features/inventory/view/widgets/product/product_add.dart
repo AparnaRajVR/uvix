@@ -1,8 +1,8 @@
-import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:yuvix/core/constants/color.dart';
 import 'package:yuvix/features/inventory/controller/category_Service.dart';
 import 'package:yuvix/features/inventory/view/widgets/product/action_button.dart';
 import 'package:yuvix/features/inventory/view/widgets/product/brand_drop_doun.dart';
@@ -58,9 +58,7 @@ class _AddProductState extends State<AddProduct> {
     }
   }
 
-Future<void>  addProduct(
-    
-      ) async {
+  Future<void> addProduct() async {
     if (productNameController.text.isEmpty ||
         _image == null ||
         _selectedType == null ||
@@ -95,8 +93,6 @@ Future<void>  addProduct(
 
     await Provider.of<ProductService>(context, listen: false)
         .addProduct(newProduct);
-    log('............................${newProduct.image}');
-    log('Added>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Product Added')),
@@ -116,7 +112,15 @@ Future<void>  addProduct(
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Product'),
+        foregroundColor: ConstC.getColor(AppColor.textC1),
+        backgroundColor: ConstC.getColor(AppColor.appBar),
+        title: Text(
+          'Add Product',
+          style: TextStyle(
+            color: ConstC.getColor(AppColor.textC1),
+          ),
+        ),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),
@@ -187,17 +191,13 @@ Future<void>  addProduct(
             ),
             SizedBox(height: 20),
             ActionButtons(
-              onCancel: () {
-                Navigator.pop(context);
-              },
-              onAdd: addProduct
-           
-            ),
+                onCancel: () {
+                  Navigator.pop(context);
+                },
+                onAdd: addProduct),
           ],
         ),
       ),
     );
   }
 }
-
-

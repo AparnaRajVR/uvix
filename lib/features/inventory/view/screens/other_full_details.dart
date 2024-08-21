@@ -5,7 +5,6 @@ import '../../models/product_model.dart';
 
 import '../widgets/product/other/show_dialog.dart';
 
-
 class OtherFullDetails extends StatelessWidget {
   final ProductModel product;
 
@@ -31,5 +30,4 @@ class OtherFullDetails extends StatelessWidget {
       ),
     );
   }
-
 }

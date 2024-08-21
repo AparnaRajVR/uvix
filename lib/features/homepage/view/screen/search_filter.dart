@@ -1,5 +1,3 @@
-
-
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -92,16 +90,16 @@ class _SearchPageState extends State<SearchPage> {
                   margin: EdgeInsets.all(10),
                   child: ListTile(
                     leading: CircleAvatar(
-                      backgroundImage: product.image != null &&
-                              product.image!.isNotEmpty
-                          ? FileImage(File(product.image!))
-                          : AssetImage('assets/placeholder.png')
-                              as ImageProvider,
+                      backgroundImage:
+                          product.image != null && product.image!.isNotEmpty
+                              ? FileImage(File(product.image!))
+                              : AssetImage('assets/placeholder.png')
+                                  as ImageProvider,
                     ),
                     title: Text(
                       product.productName,
-                      style: TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('Price: ₹${product.price}'),
                   ),
@@ -123,4 +121,3 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 }
-

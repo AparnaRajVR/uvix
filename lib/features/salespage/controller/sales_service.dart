@@ -1,11 +1,12 @@
-
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:intl/intl.dart';
 import 'package:yuvix/features/salespage/model/sales_model.dart';
 
 import '../model/sales_item_model.dart';
-  String? selectedcat;
+
+String? selectedcat;
+
 class SalesProvider with ChangeNotifier {
   late Box<SalesModel> _salesBox;
   String? selectedCategory;
@@ -34,35 +35,30 @@ class SalesProvider with ChangeNotifier {
       salesList: salesList.toList(),
     );
 
-    
     await _salesBox.add(salesData);
 
-   
     final allSales = _salesBox.values.toList();
     for (var sale in allSales) {
-      print(sale.toString()); 
+      print(sale.toString());
 
-      
       for (var item in sale.salesList) {
         print(
             '  ${item.productName} - ₹${item.pricePerUnit.toStringAsFixed(2)} x ${item.quantity}');
       }
     }
 
-    
     notifyListeners();
   }
 
   List<SalesModel> getAllSales() {
     final allSales = _salesBox.values.toList();
     for (var sale in allSales) {
-      print(sale.toString()); 
+      print(sale.toString());
 
-      
       for (var item in sale.salesList) {
         print(
-            '????????????????????????????  ${item.productName} - ₹${item.pricePerUnit.toStringAsFixed(2)} x ${item.quantity}');
-        print("................................${item.categoryName}");
+            '${item.productName} - ₹${item.pricePerUnit.toStringAsFixed(2)} x ${item.quantity}');
+        print("${item.categoryName}");
       }
     }
 
@@ -74,8 +70,7 @@ class SalesProvider with ChangeNotifier {
       return [];
     }
 
-    
-    final dateFormat = DateFormat('dd.MMM.yyyy'); 
+    final dateFormat = DateFormat('dd.MMM.yyyy');
 
     return _salesBox.values.where((sale) {
       DateTime? saleDate;
@@ -84,7 +79,7 @@ class SalesProvider with ChangeNotifier {
         saleDate = dateFormat.parse(sale.date);
       } catch (e) {
         print('Date format exception: $e');
-        return false; 
+        return false;
       }
 
       return saleDate.isAfter(startDate.subtract(Duration(days: 1))) &&
@@ -100,8 +95,7 @@ class SalesProvider with ChangeNotifier {
     for (var sale in sales) {
       for (var item in sale.salesList) {
         if (categorySummary.containsKey(item.categoryName)) {
-          categorySummary[item.categoryName]!['totalQuantity'] +=
-              item.quantity;
+          categorySummary[item.categoryName]!['totalQuantity'] += item.quantity;
           categorySummary[item.categoryName]!['totalAmount'] +=
               item.pricePerUnit * item.quantity;
         } else {
@@ -139,4 +133,3 @@ class SalesProvider with ChangeNotifier {
     return totalAmount;
   }
 }
-

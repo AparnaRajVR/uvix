@@ -1,19 +1,14 @@
-
 import 'package:flutter/material.dart';
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:yuvix/core/constants/color.dart';
 import 'package:yuvix/features/out_of_stock/out_of_stock.dart';
-// import 'package:fluttericon/octicons_icons.dart';
-
 import 'package:yuvix/features/revenue/view/screen/revenue.dart';
 import 'package:yuvix/features/salespage/view/screens/sales.dart';
 
 import '../../../inventory/view/screens/Inventory.dart';
 
-
-
-  Color BackgroundColor = ConstC.getColor(AppColor.background1);
+Color BackgroundColor = ConstC.getColor(AppColor.background1);
 
 class BottomNav extends StatefulWidget {
   const BottomNav({Key? key}) : super(key: key);
@@ -55,13 +50,11 @@ class _BottomNavState extends State<BottomNav> {
       body: PageView(
         controller: _pageController,
         physics: NeverScrollableScrollPhysics(),
-        children:  [
+        children: [
           InventoryPage(),
           SalesPage(),
           OutOfStock(),
           RevenuePage(),
-         
-         
         ],
         onPageChanged: (index) {
           setState(() {
@@ -76,27 +69,24 @@ class _BottomNavState extends State<BottomNav> {
         onItemSelected: _onItemSelected,
         items: [
           FlashyTabBarItem(
-            icon: Icon(FontAwesome5.box_open, color: Colors.white),
-            title: Text('Inventory Manage', style: TextStyle(color: Colors.white)),
-          ),
-         
-          FlashyTabBarItem(
-            icon: Icon(FontAwesome5.hands_helping, color: Colors.white),
-            title: Text('Sales', style: TextStyle(color: Colors.white)),
-          ),
-           FlashyTabBarItem(
-            icon: Icon(Icons.inventory, color: Colors.white),
-            title: Text('OutOfStock', style: TextStyle(color: Colors.white)),
+            icon: Icon(FontAwesome5.box_open, color:  ConstC.getColor(AppColor.icon1)),
+            title:
+                Text('Inventory Manage', style: TextStyle(color: ConstC.getColor(AppColor.icon1))),
           ),
           FlashyTabBarItem(
-            icon: Icon(FontAwesome5.chart_bar, color: Colors.white),
-            title: Text('Revenue', style: TextStyle(color: Colors.white)),
+            icon: Icon(FontAwesome5.hands_helping, color: ConstC.getColor(AppColor.icon1)),
+            title: Text('Sales', style: TextStyle(color: ConstC.getColor(AppColor.icon1))),
           ),
-        
+          FlashyTabBarItem(
+            icon: Icon(Icons.inventory, color: ConstC.getColor(AppColor.icon1)),
+            title: Text('OutOfStock', style: TextStyle(color: ConstC.getColor(AppColor.icon1))),
+          ),
+          FlashyTabBarItem(
+            icon: Icon(FontAwesome5.chart_bar, color: ConstC.getColor(AppColor.icon1)),
+            title: Text('Revenue', style: TextStyle(color: ConstC.getColor(AppColor.icon1))),
+          ),
         ],
       ),
     );
   }
 }
-
-

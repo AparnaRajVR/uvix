@@ -53,4 +53,32 @@ class CategorySection extends StatelessWidget {
       ],
     );
   }
+  void showDeleteDialog(BuildContext context, CategoryService categoryService, CategoryModel category,int index) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Delete Category'),
+          content: Text('Are you sure you want to delete this category?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                categoryService.deleteCategory(index);
+                Navigator.of(context).pop();
+              },
+              child: Text('Delete'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
+
+

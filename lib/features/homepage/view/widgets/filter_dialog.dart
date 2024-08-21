@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yuvix/features/homepage/view/widgets/filter_option.dart';
@@ -22,7 +21,12 @@ class _FilterDialogState extends State<FilterDialog> {
           children: <Widget>[
             FilterOption(
               title: 'Price',
-              options: ['Under ₹15,000', '₹15,000 - ₹30,000', '₹30,000 - ₹60,000', 'Above ₹60,000'],
+              options: [
+                'Under ₹15,000',
+                '₹15,000 - ₹30,000',
+                '₹30,000 - ₹60,000',
+                'Above ₹60,000'
+              ],
               onChanged: (selectedOptions) {
                 setState(() {
                   _priceFilters = selectedOptions;
@@ -31,7 +35,15 @@ class _FilterDialogState extends State<FilterDialog> {
             ),
             FilterOption(
               title: 'Color',
-              options: ['Black', 'Blue', 'Red', 'Green', 'White', 'Purple', 'Silver'],
+              options: [
+                'Black',
+                'Blue',
+                'Red',
+                'Green',
+                'White',
+                'Purple',
+                'Silver'
+              ],
               onChanged: (selectedOptions) {
                 setState(() {
                   _colorFilters = selectedOptions;
@@ -60,9 +72,9 @@ class _FilterDialogState extends State<FilterDialog> {
               filters['Color'] = _colorFilters;
             }
 
-            Provider.of<ProductService>(context, listen: false).filterProducts(filters);
+            Provider.of<ProductService>(context, listen: false)
+                .filterProducts(filters);
             Navigator.of(context).pop();
-           
           },
         ),
       ],

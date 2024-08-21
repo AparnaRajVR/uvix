@@ -22,7 +22,7 @@ class ProductShowCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-       onLongPress: onLongPress,
+      onLongPress: onLongPress,
       child: Card(
         elevation: 3.0,
         child: Column(
@@ -45,7 +45,8 @@ class ProductShowCard extends StatelessWidget {
                 children: [
                   Text(
                     productName,
-                    style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                    style:
+                        TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 4.0),
                   Text(color),

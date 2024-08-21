@@ -1,4 +1,3 @@
-
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -8,11 +7,11 @@ class ProductService with ChangeNotifier {
   Box<ProductModel>? _productBox;
   List<ProductModel> _products = [];
   List<ProductModel> productsMy = [];
-  List<ProductModel> _filteredProducts = []; 
+  List<ProductModel> _filteredProducts = [];
   File? _imageFile;
 
   List<ProductModel> get products => _products;
-  List<ProductModel> get filteredProducts => _filteredProducts; 
+  List<ProductModel> get filteredProducts => _filteredProducts;
   File? get imageFile => _imageFile;
 
   ProductService() {
@@ -54,26 +53,33 @@ class ProductService with ChangeNotifier {
 
   Future<void> updateProduct(ProductModel product) async {
     if (_productBox == null) return;
-    final index = _productBox!.values.toList().indexWhere((value) => value.productId == product.productId);
+    final index = _productBox!.values
+        .toList()
+        .indexWhere((value) => value.productId == product.productId);
     if (index != -1) {
-      // Get the existing product
-      final existingProduct = _productBox!.getAt(index);
-      
-      // Create an updated product, preserving all fields except quantity
+      // final existingProduct = _productBox!.getAt(index);
+
       final updatedProduct = ProductModel(
-        productId: existingProduct!.productId,
-        productName: existingProduct.productName,
-        category: existingProduct.category,
-        quantity: product.quantity, // Update only the quantity
-        price: existingProduct.price,
-        color: existingProduct.color,
-        brand: existingProduct.brand,
-        battery: existingProduct.battery,
-        networkConnectivity: existingProduct.networkConnectivity,
-        displaySize: existingProduct.displaySize,
-        image: existingProduct.image, // Preserve the image
+        productId: product.productId,
+        productName: product.productName,
+        category: product.category,
+        camera: product.camera,
+        compatibility: product.compatibility,
+        features: product.features,
+        material: product.material,
+        processor: product.processor,
+        ram: product.ram,
+        storage: product.storage,
+        quantity: product.quantity,
+        price: product.price,
+        color: product.color,
+        brand: product.brand,
+        battery: product.battery,
+        networkConnectivity: product.networkConnectivity,
+        displaySize: product.displaySize,
+        image: product.image,
       );
-      
+
       await _productBox!.putAt(index, updatedProduct);
       _products = _productBox!.values.toList();
       notifyListeners();
@@ -87,10 +93,11 @@ class ProductService with ChangeNotifier {
 
   void searchProducts(String query) {
     if (query.isEmpty) {
-      _filteredProducts = _products; 
+      _filteredProducts = _products;
     } else {
-      _filteredProducts = _products 
-          .where((product) => product.productName.toLowerCase().contains(query.toLowerCase()))
+      _filteredProducts = _products
+          .where((product) =>
+              product.productName.toLowerCase().contains(query.toLowerCase()))
           .toList();
     }
     notifyListeners();
@@ -107,10 +114,16 @@ class ProductService with ChangeNotifier {
       filteredProducts = filteredProducts.where((product) {
         double price = product.price;
         bool priceMatch = false;
-        if (priceFilters.contains('Under ₹15,000') && price < 15000) priceMatch = true;
-        if (priceFilters.contains('₹15,000 - ₹30,000') && price >= 15000 && price <= 30000) priceMatch = true;
-        if (priceFilters.contains('₹30,000 - ₹60,000') && price > 30000 && price <= 60000) priceMatch = true;
-        if (priceFilters.contains('Above ₹60,000') && price > 60000) priceMatch = true;
+        if (priceFilters.contains('Under ₹15,000') && price < 15000)
+          priceMatch = true;
+        if (priceFilters.contains('₹15,000 - ₹30,000') &&
+            price >= 15000 &&
+            price <= 30000) priceMatch = true;
+        if (priceFilters.contains('₹30,000 - ₹60,000') &&
+            price > 30000 &&
+            price <= 60000) priceMatch = true;
+        if (priceFilters.contains('Above ₹60,000') && price > 60000)
+          priceMatch = true;
         return priceMatch;
       }).toList();
       print('After Price Filter: ${filteredProducts.length}');
@@ -133,10 +146,13 @@ class ProductService with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> filterProductsByCategory(String categoryName, String query) async {
+  Future<void> filterProductsByCategory(
+      String categoryName, String query) async {
     final productBox = await Hive.openBox<ProductModel>('products');
     _filteredProducts = productBox.values
-        .where((product) => product.category == categoryName && product.productName.toLowerCase().contains(query.toLowerCase()))
+        .where((product) =>
+            product.category == categoryName &&
+            product.productName.toLowerCase().contains(query.toLowerCase()))
         .toList();
     notifyListeners();
   }
@@ -146,10 +162,9 @@ class ProductService with ChangeNotifier {
   }
 
   void removeFromOutOfStock(ProductModel product) {
-  
-  if (product.quantity! > 0) {
-    _products.removeWhere((p) => p.productId == product.productId);
-    notifyListeners();
+    if (product.quantity! > 0) {
+      _products.removeWhere((p) => p.productId == product.productId);
+      notifyListeners();
+    }
   }
-}
 }

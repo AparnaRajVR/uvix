@@ -1,9 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:yuvix/core/constants/color.dart';
 import 'package:yuvix/features/salespage/model/sales_model.dart';
 import '../widget/s_card_widget.dart';
-
 
 class SalesCardDetails extends StatelessWidget {
   final SalesModel sales;
@@ -57,9 +55,7 @@ class SalesCardDetails extends StatelessWidget {
                     label: 'Date:',
                     value: sales.date,
                   ),
-
                   SizedBox(height: 16),
-
                   Text(
                     'Sales List',
                     style: TextStyle(
@@ -69,13 +65,10 @@ class SalesCardDetails extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 8),
-
                   ...SalesCardDetailsWidgets.buildSalesList(
                     salesList: sales.salesList,
                   ),
-
                   SizedBox(height: 16),
-
                   SalesCardDetailsWidgets.buildTotalAmountRow(
                     totalAmount: sales.totalAmount,
                   ),

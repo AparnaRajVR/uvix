@@ -1,12 +1,9 @@
-
-
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:yuvix/core/constants/color.dart';
 import 'package:yuvix/features/inventory/models/brand_model.dart';
-
-
 
 import '../../../controller/brand_services.dart';
 
@@ -33,9 +30,10 @@ class _AddBrandState extends State<AddBrand> {
   }
 
   Future<void> addBrand() async {
-    if ( BrandNameController.text.isEmpty || _image == null) {
+    if (BrandNameController.text.isEmpty || _image == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please provide  brand name, and select an image.')),
+        SnackBar(
+            content: Text('Please provide  brand name, and select an image.')),
       );
       return;
     }
@@ -43,10 +41,12 @@ class _AddBrandState extends State<AddBrand> {
     final newBrand = BrandModel(
       brandId: 1,
       brandName: BrandNameController.text,
-      brandImage: _image!.path, productCount: null,
+      brandImage: _image!.path,
+      productCount: null,
     );
 
-    await Provider.of<BrandService>(context, listen: false).addBrand(newBrand, _image!.path);
+    await Provider.of<BrandService>(context, listen: false)
+        .addBrand(newBrand, _image!.path);
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Brand Added')),
@@ -59,7 +59,15 @@ class _AddBrandState extends State<AddBrand> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Brand'),
+        foregroundColor: ConstC.getColor(AppColor.textC1),
+        backgroundColor: ConstC.getColor(AppColor.appBar),
+        title: Text(
+          'Add Brand',
+          style: TextStyle(
+            color: ConstC.getColor(AppColor.textC1),
+          ),
+        ),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -67,7 +75,6 @@ class _AddBrandState extends State<AddBrand> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-             
               SizedBox(height: 20),
               TextField(
                 controller: BrandNameController,
@@ -88,7 +95,8 @@ class _AddBrandState extends State<AddBrand> {
                   ),
                   child: _image == null
                       ? Center(
-                          child: Icon(Icons.add_a_photo, size: 40, color: Colors.grey),
+                          child: Icon(Icons.add_a_photo,
+                              size: 40, color: Colors.grey),
                         )
                       : Image.file(
                           _image!,
@@ -108,7 +116,7 @@ class _AddBrandState extends State<AddBrand> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
                       foregroundColor: Colors.white,
-                      fixedSize: Size(100, 50), 
+                      fixedSize: Size(100, 50),
                     ),
                   ),
                   ElevatedButton(
@@ -117,10 +125,9 @@ class _AddBrandState extends State<AddBrand> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,
                       foregroundColor: Colors.white,
-                      fixedSize: Size(100, 50), 
+                      fixedSize: Size(100, 50),
                     ),
                   ),
-                  
                 ],
               ),
             ],

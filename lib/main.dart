@@ -29,7 +29,7 @@ import 'features/salespage/model/sales_model.dart';
 late final catBox;
 late final brandbox;
 late final productbox;
-late final _profilebox;
+late final profilebox;
 late final salesbox;
  
 void main() async {
@@ -50,7 +50,7 @@ void main() async {
   catBox = await Hive.openBox<CategoryModel>('categoryBox');
   brandbox= await Hive.openBox<BrandModel>('brandBox');
   productbox= await Hive.openBox<ProductModel>('productBox');
-  _profilebox= await Hive.openBox<ProfileModel>('profileBox');
+  profilebox= await Hive.openBox<ProfileModel>('profileBox');
    salesbox=await Hive.openBox<SalesModel>('salesBox');
 
   
@@ -80,7 +80,7 @@ class YuvixApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
       
-      scaffoldBackgroundColor:  ConstC.getColor(AppColor.textC1),
+      scaffoldBackgroundColor:  ConstC.getColor(AppColor.scaffold),
       ),
       initialRoute: '/',
       routes: {

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yuvix/features/inventory/controller/product_services.dart';
@@ -9,21 +11,21 @@ class OutOfStock extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Out of Stock Products', style: TextStyle(color: ConstC.getColor(AppColor.textC1))),
-        centerTitle: true,
-        backgroundColor: ConstC.getColor(AppColor.appBar)),
-        
-        backgroundColor: ConstC.getColor(AppColor.scaffold),
-      
+          title: Text('Out of Stock Products',
+              style: TextStyle(color: ConstC.getColor(AppColor.textC1))),
+          centerTitle: true,
+          backgroundColor: ConstC.getColor(AppColor.appBar)),
+      backgroundColor: ConstC.getColor(AppColor.scaffold),
       body: Consumer<ProductService>(
         builder: (context, productService, child) {
           final outOfStockProducts = productService.getOutOfStockProducts();
-          
+
           if (outOfStockProducts.isEmpty) {
             return Center(
               child: Text(
-                'No out of stock products',
-                style: TextStyle(fontSize: 18, color: ConstC.getColor(AppColor.textC1)),
+                'No Out of Stock Items',
+                style: TextStyle(
+                    fontSize: 18, color: ConstC.getColor(AppColor.text)),
               ),
             );
           }
@@ -50,29 +52,22 @@ class OutOfStock extends StatelessWidget {
   Widget _buildProductCard(ProductModel product) {
     return Card(
       elevation: 4,
-      // color: ConstC.getColor(AppColor.text),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
-            child: Center(
-              child: Icon(
-                Icons.inventory_2_outlined,
-                size: 80,
-                color: ConstC.getColor(AppColor.icon2),
-              ),
-            ),
+            child: Center(child: Image.file(File(product.image.toString()))),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
                   product.productName,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 16,
+                    fontSize: 18,
                     color: ConstC.getColor(AppColor.textC2),
                   ),
                   maxLines: 2,
@@ -80,9 +75,9 @@ class OutOfStock extends StatelessWidget {
                 ),
                 SizedBox(height: 4),
                 Text(
-                  'Category: ${product.category}',
+                  ' ${product.category}',
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: 15,
                     color: ConstC.getColor(AppColor.textC2),
                   ),
                 ),

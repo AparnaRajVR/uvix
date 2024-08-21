@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import '../widgets/brand/brand_section.dart';
 import '../widgets/catogary/category_section.dart';
@@ -8,9 +7,12 @@ class InventoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
+      
+      
       slivers: [
         buildSliverAppBar(context),
         SliverList(
+          
           delegate: SliverChildListDelegate(
             [
               Padding(
@@ -30,5 +32,4 @@ class InventoryPage extends StatelessWidget {
       ],
     );
   }
-
 }

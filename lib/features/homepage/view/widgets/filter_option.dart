@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class FilterOption extends StatefulWidget {
@@ -6,7 +5,8 @@ class FilterOption extends StatefulWidget {
   final List<String> options;
   final Function(List<String>) onChanged;
 
-  FilterOption({required this.title, required this.options, required this.onChanged});
+  FilterOption(
+      {required this.title, required this.options, required this.onChanged});
 
   @override
   _FilterOptionState createState() => _FilterOptionState();
@@ -38,6 +38,3 @@ class _FilterOptionState extends State<FilterOption> {
     );
   }
 }
-
-
-

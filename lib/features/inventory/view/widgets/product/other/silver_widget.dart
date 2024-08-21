@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:yuvix/core/constants/color.dart';
 import 'package:yuvix/features/homepage/view/screen/search_filter.dart';
@@ -9,11 +8,13 @@ import '../../brand/add_brand_card.dart';
 
 Widget buildSliverAppBar(BuildContext context) {
   return SliverAppBar(
+    backgroundColor: Colors.white,
     expandedHeight: 300.0,
     flexibleSpace: FlexibleSpaceBar(
       background: Stack(
         children: [
           Container(
+           
             height: 250,
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -41,10 +42,10 @@ Widget buildSliverAppBar(BuildContext context) {
             right: 20,
             child: Row(
               children: [
-                 GestureDetector(
+                GestureDetector(
                   onTap: () {
                     Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => SearchPage()), 
+                      MaterialPageRoute(builder: (context) => SearchPage()),
                     );
                   },
                   child: Icon(
@@ -53,7 +54,9 @@ Widget buildSliverAppBar(BuildContext context) {
                     size: 28,
                   ),
                 ),
-                 SizedBox(width: 10,),
+                SizedBox(
+                  width: 10,
+                ),
                 GestureDetector(
                   onTap: () {
                     Navigator.of(context).push(
@@ -65,8 +68,6 @@ Widget buildSliverAppBar(BuildContext context) {
                     radius: 25,
                   ),
                 ),
-                
-               
               ],
             ),
           ),

@@ -150,13 +150,13 @@ class _LoginFormState extends State<LoginForm> {
             ],
           ),
         ),
-        child: const Center(
+        child:  Center(
           child: Text(
             'LOGIN',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 20,
-              color: Colors.white,
+              color: ConstC.getColor(AppColor.textC1),
             ),
           ),
         ),

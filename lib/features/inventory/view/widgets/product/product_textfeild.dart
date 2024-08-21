@@ -7,17 +7,17 @@ class ProductTextFieldWidget extends StatelessWidget {
 
   const ProductTextFieldWidget({
     required this.controller,
-    required this.labelText,required this.type,
+    required this.labelText,
+    required this.type,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextField(
-      keyboardType:type==true? TextInputType.number : TextInputType.text ,
+      keyboardType: type == true ? TextInputType.number : TextInputType.text,
       controller: controller,
       decoration: InputDecoration(
         labelText: labelText,
-      
         border: OutlineInputBorder(),
       ),
     );
