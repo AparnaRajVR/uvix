@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../core/constants/color.dart';
@@ -8,7 +7,7 @@ import '../widgets/product/product_navigator.dart';
 class ProductDisplayPage extends StatelessWidget {
   final String category;
 
- ProductDisplayPage({required this.category});
+  ProductDisplayPage({required this.category});
 
   @override
   Widget build(BuildContext context) {
@@ -17,11 +16,16 @@ class ProductDisplayPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        foregroundColor: ConstC.getColor(AppColor.textC1),
         backgroundColor: ConstC.getColor(AppColor.appBar),
-        title: Text('$category Products'),
+        title: Text('$category Products',
+            style: TextStyle(color: ConstC.getColor(AppColor.textC1))),
+        centerTitle: true,
       ),
       body: Consumer<ProductService>(builder: (context, value, child) {
-        var filterProducts = value.productsMy.where((element) => element.category == category).toList();
+        var filterProducts = value.productsMy
+            .where((element) => element.category == category)
+            .toList();
 
         return GridView.builder(
           padding: EdgeInsets.all(6.0),
@@ -42,5 +46,3 @@ class ProductDisplayPage extends StatelessWidget {
     );
   }
 }
-
-

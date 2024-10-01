@@ -1,8 +1,8 @@
 
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:yuvix/core/constants/color.dart';
 import 'package:yuvix/features/salespage/controller/sales_service.dart';
 import 'package:yuvix/features/salespage/model/sales_model.dart';
 import 'package:yuvix/features/salespage/view/screens/sales_card_detail.dart';
@@ -19,7 +19,7 @@ class _SalesMoreState extends State<SalesMore> {
   DateTime selectedDate = DateTime.now();
   DateTime? startDate;
   DateTime? endDate;
-  final DateFormat formatter = DateFormat('yyyy-MM-dd');
+  final DateFormat formatter = DateFormat('dd.MMM.yyyy'); 
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,11 @@ class _SalesMoreState extends State<SalesMore> {
 
     return Scaffold(
       appBar: AppBar(
+        foregroundColor: ConstC.getColor(AppColor.textC1),
+        backgroundColor: ConstC.getColor(AppColor.appBar),
         title: Text("Sales More"),
+        titleTextStyle: TextStyle(color: ConstC.getColor(AppColor.textC1), fontSize: 23),
+        centerTitle: true,
       ),
       body: Column(
         children: [
@@ -75,7 +79,7 @@ class _SalesMoreState extends State<SalesMore> {
                     onTap: () async {
                       DateTime? pickedDate = await showDatePicker(
                         context: context,
-                        initialDate: startDate ?? DateTime.now(),
+                        initialDate: startDate ?? selectedDate,
                         firstDate: DateTime(2000),
                         lastDate: DateTime(2101),
                       );
@@ -88,12 +92,13 @@ class _SalesMoreState extends State<SalesMore> {
                     child: Container(
                       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 8),
                       decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey),
+                        color: ConstC.getColor(AppColor.buttonBackground),
+                        border: Border.all(color: ConstC.getColor(AppColor.text)),
                         borderRadius: BorderRadius.circular(5),
                       ),
                       child: Text(
                         formattedStartDate,
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 16, color: ConstC.getColor(AppColor.textC1)),
                       ),
                     ),
                   ),
@@ -104,7 +109,7 @@ class _SalesMoreState extends State<SalesMore> {
                     onTap: () async {
                       DateTime? pickedDate = await showDatePicker(
                         context: context,
-                        initialDate: endDate ?? DateTime.now(),
+                        initialDate: endDate ?? selectedDate,
                         firstDate: DateTime(2000),
                         lastDate: DateTime(2101),
                       );
@@ -117,12 +122,13 @@ class _SalesMoreState extends State<SalesMore> {
                     child: Container(
                       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 8),
                       decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey),
+                        color: ConstC.getColor(AppColor.buttonBackground),
+                        border: Border.all(color: ConstC.getColor(AppColor.text)),
                         borderRadius: BorderRadius.circular(5),
                       ),
                       child: Text(
                         formattedEndDate,
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 16, color: ConstC.getColor(AppColor.textC1)),
                       ),
                     ),
                   ),
@@ -176,7 +182,7 @@ class _SalesMoreState extends State<SalesMore> {
                       child: SalesCard(
                         buyerName: sale.customerName,
                         mobileNumber: sale.mobileNumber,
-                        totalAmount: totalAmount,
+                        totalAmount: totalAmount, sale: sale.customerName,
                       ),
                     );
                   },
@@ -189,4 +195,3 @@ class _SalesMoreState extends State<SalesMore> {
     );
   }
 }
-

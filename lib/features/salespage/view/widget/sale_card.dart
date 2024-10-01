@@ -4,15 +4,17 @@ import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:yuvix/core/constants/color.dart';
 
 class SalesCard extends StatelessWidget {
+  final String sale;
   final String buyerName;
   final String mobileNumber;
   final double totalAmount;
 
   const SalesCard({
     Key? key,
+    required this.sale,
     required this.buyerName,
     required this.mobileNumber,
-    required this.totalAmount,
+    required this.totalAmount,  
   }) : super(key: key);
 
   @override

@@ -1,10 +1,8 @@
-
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:yuvix/core/constants/color.dart';
 import '../../../models/brand_model.dart';
 import '../../screens/brand_detail_page.dart';
-
 
 class BrandCard extends StatelessWidget {
   final BrandModel brand;
@@ -16,9 +14,10 @@ class BrandCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => BrandDetailPage(brand: brand.brandName!)));
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    BrandDetailPage(brand: brand.brandName!)));
       },
       child: Card(
         elevation: 2,
@@ -27,7 +26,7 @@ class BrandCard extends StatelessWidget {
         ),
         child: Container(
           width: 160,
-          height: 170,
+          height: 150,
           padding: EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: ConstC.getColor(AppColor.background1),
@@ -47,10 +46,12 @@ class BrandCard extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 7),
-              Text(brand.brandName!),
-              SizedBox(height: 5),
-              // Text(count),
+              SizedBox(height: 6),
+              Text(
+                brand.brandName!,
+                style: TextStyle(
+                    color: ConstC.getColor(AppColor.textC1), fontSize: 16),
+              ),
             ],
           ),
         ),
@@ -58,5 +59,3 @@ class BrandCard extends StatelessWidget {
     );
   }
 }
-
-

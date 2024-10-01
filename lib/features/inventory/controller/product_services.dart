@@ -1,4 +1,3 @@
-
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -8,11 +7,11 @@ class ProductService with ChangeNotifier {
   Box<ProductModel>? _productBox;
   List<ProductModel> _products = [];
   List<ProductModel> productsMy = [];
-  List<ProductModel> _filteredProducts = []; 
+  List<ProductModel> _filteredProducts = [];
   File? _imageFile;
 
   List<ProductModel> get products => _products;
-  List<ProductModel> get filteredProducts => _filteredProducts; 
+  List<ProductModel> get filteredProducts => _filteredProducts;
   File? get imageFile => _imageFile;
 
   ProductService() {
@@ -54,9 +53,34 @@ class ProductService with ChangeNotifier {
 
   Future<void> updateProduct(ProductModel product) async {
     if (_productBox == null) return;
-    final index = _productBox!.values.toList().indexWhere((value) => value.productId == product.productId);
+    final index = _productBox!.values
+        .toList()
+        .indexWhere((value) => value.productId == product.productId);
     if (index != -1) {
-      await _productBox!.putAt(index, product);
+      // final existingProduct = _productBox!.getAt(index);
+
+      final updatedProduct = ProductModel(
+        productId: product.productId,
+        productName: product.productName,
+        category: product.category,
+        camera: product.camera,
+        compatibility: product.compatibility,
+        features: product.features,
+        material: product.material,
+        processor: product.processor,
+        ram: product.ram,
+        storage: product.storage,
+        quantity: product.quantity,
+        price: product.price,
+        color: product.color,
+        brand: product.brand,
+        battery: product.battery,
+        networkConnectivity: product.networkConnectivity,
+        displaySize: product.displaySize,
+        image: product.image,
+      );
+
+      await _productBox!.putAt(index, updatedProduct);
       _products = _productBox!.values.toList();
       notifyListeners();
     }
@@ -69,10 +93,11 @@ class ProductService with ChangeNotifier {
 
   void searchProducts(String query) {
     if (query.isEmpty) {
-      _filteredProducts = []; 
+      _filteredProducts = _products;
     } else {
-      _filteredProducts = _products 
-          .where((product) => product.productName.toLowerCase().contains(query.toLowerCase()))
+      _filteredProducts = _products
+          .where((product) =>
+              product.productName.toLowerCase().contains(query.toLowerCase()))
           .toList();
     }
     notifyListeners();
@@ -89,10 +114,16 @@ class ProductService with ChangeNotifier {
       filteredProducts = filteredProducts.where((product) {
         double price = product.price;
         bool priceMatch = false;
-        if (priceFilters.contains('Under ₹15,000') && price < 15000) priceMatch = true;
-        if (priceFilters.contains('₹15,000 - ₹30,000') && price >= 15000 && price <= 30000) priceMatch = true;
-        if (priceFilters.contains('₹30,000 - ₹60,000') && price > 30000 && price <= 60000) priceMatch = true;
-        if (priceFilters.contains('Above ₹60,000') && price > 60000) priceMatch = true;
+        if (priceFilters.contains('Under ₹15,000') && price < 15000)
+          priceMatch = true;
+        if (priceFilters.contains('₹15,000 - ₹30,000') &&
+            price >= 15000 &&
+            price <= 30000) priceMatch = true;
+        if (priceFilters.contains('₹30,000 - ₹60,000') &&
+            price > 30000 &&
+            price <= 60000) priceMatch = true;
+        if (priceFilters.contains('Above ₹60,000') && price > 60000)
+          priceMatch = true;
         return priceMatch;
       }).toList();
       print('After Price Filter: ${filteredProducts.length}');
@@ -115,15 +146,25 @@ class ProductService with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> filterProductsByCategory(String categoryName, String query) async {
+  Future<void> filterProductsByCategory(
+      String categoryName, String query) async {
     final productBox = await Hive.openBox<ProductModel>('products');
     _filteredProducts = productBox.values
-        .where((product) => product.category == categoryName && product.productName.toLowerCase().contains(query.toLowerCase()))
+        .where((product) =>
+            product.category == categoryName &&
+            product.productName.toLowerCase().contains(query.toLowerCase()))
         .toList();
     notifyListeners();
   }
+
+  List<ProductModel> getOutOfStockProducts() {
+    return _products.where((product) => product.quantity == 0).toList();
+  }
+
+  void removeFromOutOfStock(ProductModel product) {
+    if (product.quantity! > 0) {
+      _products.removeWhere((p) => p.productId == product.productId);
+      notifyListeners();
+    }
+  }
 }
-
-
-
-

@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-// import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:yuvix/main.dart';
 
@@ -17,5 +16,8 @@ class CategoryService extends ChangeNotifier {
     
     return catBox.values.toList(); 
   }
+void deleteCategory(int index) async {
+  await catBox.deleteAt(index); 
+  notifyListeners();
 }
-
+}

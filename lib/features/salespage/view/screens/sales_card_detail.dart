@@ -1,6 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:yuvix/features/salespage/model/sales_model.dart';
+import '../widget/s_card_widget.dart';
 
 class SalesCardDetails extends StatelessWidget {
   final SalesModel sales;
@@ -35,12 +35,19 @@ class SalesCardDetails extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildDetailRow('Customer Name:', sales.customerName ),
-                  _buildDetailRow('Mobile Number:', sales.mobileNumber ),
-                  _buildDetailRow('Date:', sales.date ),
-
+                  SalesCardDetailsWidgets.buildDetailRow(
+                    label: 'Customer Name:',
+                    value: sales.customerName,
+                  ),
+                  SalesCardDetailsWidgets.buildDetailRow(
+                    label: 'Mobile Number:',
+                    value: sales.mobileNumber,
+                  ),
+                  SalesCardDetailsWidgets.buildDetailRow(
+                    label: 'Date:',
+                    value: sales.date,
+                  ),
                   SizedBox(height: 16),
-
                   Text(
                     'Sales List',
                     style: TextStyle(
@@ -50,56 +57,12 @@ class SalesCardDetails extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 8),
-
-                  ...sales.salesList.map<Widget>((item) {
-                    return Container(
-                      margin: const EdgeInsets.only(bottom: 8.0),
-                      padding: const EdgeInsets.all(12.0),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: Colors.grey[300]!),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              item.productName,
-                              style: TextStyle(fontSize: 16),
-                            ),
-                          ),
-                          Text(
-                            '₹${item.pricePerUnit.toStringAsFixed(2) } x ${item.quantity }',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        ],
-                      ),
-                    );
-                  }).toList(),
-
+                  ...SalesCardDetailsWidgets.buildSalesList(
+                    salesList: sales.salesList,
+                  ),
                   SizedBox(height: 16),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text(
-                        'Total Amount:',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.teal,
-                        ),
-                      ),
-                      Text(
-                        '₹${sales.totalAmount.toStringAsFixed(2) }',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.teal,
-                        ),
-                      ),
-                    ],
+                  SalesCardDetailsWidgets.buildTotalAmountRow(
+                    totalAmount: sales.totalAmount,
                   ),
                 ],
               ),

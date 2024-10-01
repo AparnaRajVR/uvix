@@ -20,9 +20,9 @@ class _TermsConditionsState extends State<TermsConditions> {
       ..setBackgroundColor(const Color.fromARGB(0, 20, 10, 10))
       ..setNavigationDelegate(
         NavigationDelegate(
-          onProgress: (int progress) {
-           
-          },
+
+          onProgress: (int progress) {},
+
           onPageStarted: (String url) {},
           onPageFinished: (String url) {},
           onWebResourceError: (WebResourceError error) {
@@ -47,7 +47,6 @@ class _TermsConditionsState extends State<TermsConditions> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ConstC.getColor(AppColor.appBar),
-       
       ),
       body: Column(
         children: [

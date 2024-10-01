@@ -77,6 +77,7 @@ class SalesPage extends StatelessWidget {
                               Navigator.push(context, MaterialPageRoute(builder: (context) => SalesCardDetails(sales: sale,),));
                             },
                             child: SalesCard(
+                              sale:sale.customerName ,
                                 buyerName: sale.customerName,
                                 mobileNumber: sale.mobileNumber,
                                 totalAmount: sale.totalAmount,

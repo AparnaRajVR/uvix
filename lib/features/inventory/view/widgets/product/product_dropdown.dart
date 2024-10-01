@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../../models/category_model.dart';
 
-
 class CategoryDropdown extends StatelessWidget {
   final Future<List<CategoryModel>> categoriesFuture;
   final String? selectedType;

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +16,7 @@ class SettingsPage extends StatelessWidget {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Logout'),
-          content:  SingleChildScrollView(
+          content: SingleChildScrollView(
             child: ListBody(
               children: [
                 Text(
@@ -34,12 +33,9 @@ class SettingsPage extends StatelessWidget {
           actions: [
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                foregroundColor: ConstC.getColor(AppColor.textC1),
-                backgroundColor: ConstC.getColor(AppColor.buttonBackground2),
-                 fixedSize: Size(100, 50)
-
-                
-              ),
+                  foregroundColor: ConstC.getColor(AppColor.textC1),
+                  backgroundColor: ConstC.getColor(AppColor.buttonBackground2),
+                  fixedSize: Size(100, 50)),
               child: const Text('Cancel'),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -47,11 +43,9 @@ class SettingsPage extends StatelessWidget {
             ),
             TextButton(
               style: TextButton.styleFrom(
-                foregroundColor: ConstC.getColor(AppColor.textC1),
-                backgroundColor: ConstC.getColor(AppColor.buttonBackground),
-                 fixedSize: Size(100, 50)
-
-              ),
+                  foregroundColor: ConstC.getColor(AppColor.textC1),
+                  backgroundColor: ConstC.getColor(AppColor.buttonBackground),
+                  fixedSize: Size(100, 50)),
               child: const Text('Logout'),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -69,11 +63,13 @@ class SettingsPage extends StatelessWidget {
 
   Future<void> _editImage(BuildContext context) async {
     final ImagePicker picker = ImagePicker();
-    final XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    final XFile? pickedFile =
+        await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       print(pickedFile.path);
-      Provider.of<ProfileService>(context, listen: false).setImagePath(pickedFile.path);
+      Provider.of<ProfileService>(context, listen: false)
+          .setImagePath(pickedFile.path);
     }
   }
 
@@ -82,8 +78,12 @@ class SettingsPage extends StatelessWidget {
     controller.text = field == 'Name'
         ? Provider.of<ProfileService>(context, listen: false).profile.name
         : field == 'License'
-            ? Provider.of<ProfileService>(context, listen: false).profile.licenseNumber
-            : Provider.of<ProfileService>(context, listen: false).profile.gstNumber;
+            ? Provider.of<ProfileService>(context, listen: false)
+                .profile
+                .licenseNumber
+            : Provider.of<ProfileService>(context, listen: false)
+                .profile
+                .gstNumber;
 
     return showDialog<void>(
       context: context,
@@ -105,11 +105,14 @@ class SettingsPage extends StatelessWidget {
               child: const Text('Save'),
               onPressed: () {
                 if (field == 'Name') {
-                  Provider.of<ProfileService>(context, listen: false).setName(controller.text);
+                  Provider.of<ProfileService>(context, listen: false)
+                      .setName(controller.text);
                 } else if (field == 'License') {
-                  Provider.of<ProfileService>(context, listen: false).setLicenseNumber(controller.text);
+                  Provider.of<ProfileService>(context, listen: false)
+                      .setLicenseNumber(controller.text);
                 } else {
-                  Provider.of<ProfileService>(context, listen: false).setGstNumber(controller.text);
+                  Provider.of<ProfileService>(context, listen: false)
+                      .setGstNumber(controller.text);
                 }
                 Navigator.of(context).pop();
               },
@@ -124,9 +127,13 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Settings'),titleTextStyle: TextStyle(color:  ConstC.getColor(AppColor.textC1),fontSize: 20),
+        foregroundColor:ConstC.getColor(AppColor.textC1) ,
+        title: Text('About Us',
+            style: TextStyle(
+              color: ConstC.getColor(AppColor.textC1),
+            )),
         centerTitle: true,
-        backgroundColor:  ConstC.getColor(AppColor.appBar),
+        backgroundColor: ConstC.getColor(AppColor.appBar),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -139,20 +146,28 @@ class SettingsPage extends StatelessWidget {
                   onTap: () {
                     _editImage(context);
                   },
-                  child: CircleAvatar(
-                    radius: 60,
-                    backgroundImage: profileProvider.profile.imagePath.isNotEmpty
-                        ? FileImage(File(profileProvider.profile.imagePath))
-                        : const AssetImage('Assets/images/logo.png') as ImageProvider,
+                  child: Material(
+                    elevation: 2.0, 
+                    shape: const CircleBorder(),
+                    child: CircleAvatar(
+                      radius: 60,
+                      backgroundImage: profileProvider
+                              .profile.imagePath.isNotEmpty
+                          ? FileImage(File(profileProvider.profile.imagePath))
+                          : const AssetImage('Assets/images/logo.png')
+                              as ImageProvider,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 20),
-               
                 GestureDetector(
                   onTap: () => _editText(context, 'Name'),
                   child: Text(
                     profileProvider.profile.name,
-                    style: const TextStyle(fontSize: 33, fontWeight: FontWeight.bold, color: Color(0xff03448c)),
+                    style: const TextStyle(
+                        fontSize: 33,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xff03448c)),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -163,10 +178,12 @@ class SettingsPage extends StatelessWidget {
                       onTap: () => _editText(context, 'License'),
                       child: Column(
                         children: [
-                          const Text('License No:', style: TextStyle(fontSize: 16)),
+                          const Text('License No:',
+                              style: TextStyle(fontSize: 16)),
                           Text(
                             profileProvider.profile.licenseNumber,
-                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                            style: const TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
@@ -178,7 +195,8 @@ class SettingsPage extends StatelessWidget {
                           const Text('GST No:', style: TextStyle(fontSize: 16)),
                           Text(
                             profileProvider.profile.gstNumber,
-                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                            style: const TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
@@ -191,11 +209,13 @@ class SettingsPage extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => TermsConditions()),
+                        MaterialPageRoute(
+                            builder: (context) => TermsConditions()),
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: ConstC.getColor(AppColor.buttonBackground),
+                      backgroundColor:
+                          ConstC.getColor(AppColor.buttonBackground),
                       foregroundColor: ConstC.getColor(AppColor.textC1),
                       textStyle: const TextStyle(fontSize: 18),
                     ),
@@ -208,12 +228,13 @@ class SettingsPage extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => PrivacyPolicy()),
+                        MaterialPageRoute(
+                            builder: (context) => PrivacyPolicy()),
                       );
                     },
-                    
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: ConstC.getColor(AppColor.buttonBackground),
+                      backgroundColor:
+                          ConstC.getColor(AppColor.buttonBackground),
                       foregroundColor: ConstC.getColor(AppColor.textC1),
                       textStyle: const TextStyle(fontSize: 18),
                     ),
@@ -228,14 +249,15 @@ class SettingsPage extends StatelessWidget {
                       _showLogoutDialog(context);
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: ConstC.getColor(AppColor.buttonBackground),
+                      backgroundColor:
+                          ConstC.getColor(AppColor.buttonBackground),
                       foregroundColor: ConstC.getColor(AppColor.textC1),
                       textStyle: const TextStyle(fontSize: 18),
                     ),
                     child: const Text('Logout'),
                   ),
                 ),
-              SizedBox(height:80),
+                SizedBox(height: 80),
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Padding(
@@ -243,7 +265,7 @@ class SettingsPage extends StatelessWidget {
                     child: Text(
                       'Version 1.0',
                       style: TextStyle(
-                        color: ConstC.getColor(AppColor.text), 
+                        color: ConstC.getColor(AppColor.text),
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
                       ),

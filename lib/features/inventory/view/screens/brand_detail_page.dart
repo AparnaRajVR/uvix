@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
+import 'package:yuvix/core/constants/color.dart';
 import 'package:yuvix/features/inventory/view/widgets/product/product_card.dart';
 import '../../controller/product_services.dart';
 
@@ -16,11 +17,20 @@ class BrandDetailPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        foregroundColor: ConstC.getColor(AppColor.textC1),
         backgroundColor: Color(0xff03448c),
-        title: Text('${brand} Products'),
+        title: Text(
+          '${brand} Products',
+          style: TextStyle(
+            color: ConstC.getColor(AppColor.textC1),
+          ),
+        ),
+        centerTitle: true,
       ),
       body: Consumer<ProductService>(builder: (context, value, child) {
-        var filteredProducts = value.productsMy.where((element) => element.brand == brand).toList();
+        var filteredProducts = value.productsMy
+            .where((element) => element.brand == brand)
+            .toList();
 
         return GridView.builder(
           padding: EdgeInsets.all(8.0),

@@ -23,32 +23,40 @@ class ProductNavigator extends StatelessWidget {
       color: product.color ?? 'Unknown Color',
       price: '₹${product.price.toStringAsFixed(2)}',
       onTap: () {
-        if (product.category == 'Mobiles' || product.category == 'Smartphone' || product.category == 'Tablet') {
+        if (product.category == 'Mobiles' ||
+            product.category == 'Smartphone' ||
+            product.category == 'Tablet') {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => MobilesFullDetailsPage(product:product),
+              builder: (context) => MobilesFullDetailsPage(product: product),
             ),
           );
         } else if (product.category == 'Smartwatch') {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => SmartwatchPage(product: product,),
+              builder: (context) => SmartwatchPage(
+                product: product,
+              ),
             ),
           );
         } else if (product.category == 'Accessories') {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => AccessoriesPage(product: product,),
+              builder: (context) => AccessoriesPage(
+                product: product,
+              ),
             ),
           );
         } else {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => OtherFullDetails(product: product,),
+              builder: (context) => OtherFullDetails(
+                product: product,
+              ),
             ),
           );
         }
@@ -82,7 +90,9 @@ class ProductNavigator extends StatelessWidget {
                           Navigator.pop(context);
                         },
                         child: Text('Delete'),
-                        style: ElevatedButton.styleFrom(backgroundColor:  ConstC.getColor(AppColor.background2)),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                ConstC.getColor(AppColor.background2)),
                       ),
                       ElevatedButton(
                         onPressed: () {

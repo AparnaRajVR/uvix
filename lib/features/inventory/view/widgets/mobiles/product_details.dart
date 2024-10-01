@@ -2,10 +2,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import '../../../models/product_model.dart';
 import 'product_detail_row.dart';
-
-
-
-
 class MobileProductDetails extends StatelessWidget {
   final ProductModel product;
 

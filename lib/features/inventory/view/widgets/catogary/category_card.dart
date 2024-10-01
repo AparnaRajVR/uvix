@@ -11,8 +11,6 @@ class CatCard extends StatelessWidget {
   final CategoryModel cat;
   @override
   Widget build(BuildContext context) {
-   
-
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(
@@ -28,10 +26,10 @@ class CatCard extends StatelessWidget {
         },
         child: Container(
           width: 160,
-          height: 170,
+          height: 150,
           padding: EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color:  ConstC.getColor(AppColor.background1),
+            color: ConstC.getColor(AppColor.background1),
             borderRadius: BorderRadius.circular(15),
           ),
           child: Column(
@@ -42,15 +40,15 @@ class CatCard extends StatelessWidget {
                 width: 100,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
-                    color:  ConstC.getColor(AppColor.textC1),
+                    color: ConstC.getColor(AppColor.textC1),
                     image: DecorationImage(image: FileImage(File(cat.image!)))),
               ),
-              SizedBox(height: 7),
-              Text(cat.categoryName!),
-              SizedBox(height: 5),
-              //  Text(cat.productCount.toString()),
-              SizedBox(height: 5),
-              // Text('brandCount'),
+              SizedBox(height: 6),
+              Text(
+                cat.categoryName!,
+                style: TextStyle(
+                    color: ConstC.getColor(AppColor.textC1), fontSize: 16),
+              ),
             ],
           ),
         ),

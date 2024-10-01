@@ -6,7 +6,7 @@ part 'category_model.g.dart';
 class CategoryModel {
   @HiveField(0)
   int? categoryId;
-  
+
   @HiveField(1)
   String? categoryName;
 

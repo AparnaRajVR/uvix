@@ -1,11 +1,12 @@
 
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yuvix/features/inventory/controller/category_Service.dart';
 import 'package:yuvix/features/inventory/controller/product_services.dart';
 import 'package:yuvix/features/inventory/models/category_model.dart';
 import 'package:yuvix/features/inventory/models/product_model.dart';
+import 'package:yuvix/features/salespage/controller/sales_service.dart';
+
 
 class ProductSelectionBottomSheet extends StatefulWidget {
   final Function(ProductModel, int) onProductSelected;
@@ -47,6 +48,7 @@ class _ProductSelectionBottomSheetState extends State<ProductSelectionBottomShee
                   value: _selectedCategory,
                   onChanged: (newValue) async {
                     setState(() {
+                      selectedcat=newValue;
                       _selectedCategory = newValue;
                       _searchController.clear(); 
                       _quantityController.clear(); 

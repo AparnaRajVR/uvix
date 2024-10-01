@@ -25,10 +25,11 @@ class WatchProductDetails extends StatelessWidget {
         ProductDetailRow(label: 'Category', value: product.category),
         ProductDetailRow(label: 'Brand', value: product.brand),
         ProductDetailRow(label: 'Battery', value: '${product.battery} mAh'),
-        ProductDetailRow( label: 'Network Connectivity', value: '${product.networkConnectivity}'),
         ProductDetailRow(label: 'Color', value: product.color ?? 'Unknown Color'),
         ProductDetailRow(label: 'Display Size', value: '${product.displaySize}'),
         ProductDetailRow(label: 'Quantity', value: '${product.quantity}'),
+        ProductDetailRow(label: 'compatibility', value: '${product.compatibility}'),
+        ProductDetailRow(label: 'features', value: '${product.features}'),
         ProductDetailRow(label: 'Price', value: '₹${product.price.toStringAsFixed(2)}'),
       ],
     );

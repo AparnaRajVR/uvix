@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:yuvix/core/constants/color.dart';
 
-
 class PrivacyPolicy extends StatefulWidget {
   const PrivacyPolicy({super.key});
 
@@ -21,9 +20,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
       ..setBackgroundColor(const Color.fromARGB(0, 20, 10, 10))
       ..setNavigationDelegate(
         NavigationDelegate(
-          onProgress: (int progress) {
-            
-          },
+          onProgress: (int progress) {},
           onPageStarted: (String url) {},
           onPageFinished: (String url) {},
           onWebResourceError: (WebResourceError error) {
@@ -48,7 +45,6 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ConstC.getColor(AppColor.appBar),
-     
       ),
       body: Column(
         children: [
